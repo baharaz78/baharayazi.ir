@@ -10,7 +10,7 @@ const INTERVAL_TIME = 3000;
 let SENTENCES = [];
 
 const auth = (password = '') => {
-	fetch('http://localhost:8000/api/account/login/', {
+	fetch('https://baharayazi.iran.liara.run/api/account/login/', {
 		method: 'POST',
 		body: JSON.stringify({ password })
 	})
