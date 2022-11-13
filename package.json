@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "name": "bahar-birthday",
+  "description": "Bahar Birthday",
+  "scripts": {
+    "sass": "sass --watch src/styles/main.scss:src/main.min.css --style compressed --update"
+  },
+  "author": "Ramin",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.56.1"
+  }
+}
