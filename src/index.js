@@ -18,7 +18,7 @@ const generatePassword = (password = '') => {
 	.then(response => {
 		if(response?.success) {
 			SENTENCES = response?.data || []
-			return '';
+			return password;
 		}
 		showError();
 		return '';
