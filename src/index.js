@@ -9,7 +9,7 @@ const INTERVAL_TIME = 3000;
 
 let SENTENCES = [];
 
-const generatePassword = (password = '') => {
+const auth = (password = '') => {
 	fetch('https://baharayazi.iran.liara.run/api/account/login/', {
 		method: 'POST',
 		body: JSON.stringify({ password })
@@ -18,14 +18,20 @@ const generatePassword = (password = '') => {
 	.then(response => {
 		if(response?.success) {
 			SENTENCES = response?.data || []
-			return '';
-		}
-		showError();
-		return '';
+			CONFETTI.addConfetti({
+				confettiRadius: 2,
+				confettiNumber: 1000,
+			});
+			playSentences();
+			GIFT?.classList.add("hidden");
+			MAIN_CONTAINER?.classList.remove("hidden");
+		} else {
+			showError();
+		}		
 	})
 	.catch(error => {
 		showError();
-		return '';
+		console.log(error);
 	})
 }
 
@@ -94,21 +100,9 @@ const playSentences = () => {
 
 TOGGLE_BTN.forEach((item, index) =>
 	item.addEventListener("click", () => {
-		
 		if (!GIFT?.classList.contains("hidden")) {
 			const userPassword = window.prompt('Password:', '');
-			const PASSWORD = index === 1 ? '' : generatePassword(userPassword);
-			if(userPassword === PASSWORD && userPassword !== ''){
-				CONFETTI.addConfetti({
-					confettiRadius: 2,
-					confettiNumber: 1000,
-				});
-				playSentences();
-				GIFT?.classList.add("hidden");
-				MAIN_CONTAINER?.classList.remove("hidden");
-			} else {
-				showError();
-			}
+			auth(userPassword);			
 		} else {
 			init();
 		}
