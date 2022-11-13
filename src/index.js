@@ -4,36 +4,11 @@ const GIFT = document.querySelector(".js-gift");
 const TOGGLE_BTN = document.querySelectorAll(".js-toggle-btn");
 const MAIN_CONTAINER = document.querySelector(".js-container");
 
+let SENTENCES = [];
+const isLocal = true;
 let intervalRef = null;
 const INTERVAL_TIME = 3000;
-
-let SENTENCES = [];
-
-const auth = (password = '') => {
-	fetch('https://baharayazi.iran.liara.run/api/account/login/', {
-		method: 'POST',
-		body: JSON.stringify({ password })
-	})
-	.then(res => res.json())
-	.then(response => {
-		if(response?.success) {
-			SENTENCES = response?.data || []
-			CONFETTI.addConfetti({
-				confettiRadius: 2,
-				confettiNumber: 1000,
-			});
-			playSentences();
-			GIFT?.classList.add("hidden");
-			MAIN_CONTAINER?.classList.remove("hidden");
-		} else {
-			showError();
-		}		
-	})
-	.catch(error => {
-		showError();
-		console.log(error);
-	})
-}
+const BASE_URL = isLocal ? 'http://localhost:8000' : 'https://baharayazi.iran.liara.run';
 
 const createSentence = (text = '') => {
 	const newSentence = document.createElement("p");
@@ -63,7 +38,7 @@ const showError = () => {
 		GIFT.style.opacity = '';
 		TITLE.style.direction = '';
 		GIFT.style.pointerEvents = '';
-		TITLE.innerHTML = 'Happy Birthday Bahar 🥳';
+		TITLE.innerHTML = '🥳 Happy Birthday Bahar 🥳';
 		clearTimeout(timeOutRef);
 		timeOutRef = null;
 	}, 10000);
@@ -96,6 +71,35 @@ const playSentences = () => {
 		// Next
 		sentenceIndex++;
 	}, INTERVAL_TIME);
+};
+
+const auth = (password = '') => {
+	fetch(`${BASE_URL}/api/account/login/`, {
+		method: 'POST',
+		body: JSON.stringify({ password }),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+	.then(res => res.json())
+	.then(response => {
+		if(response?.success) {
+			SENTENCES = response?.data || []
+			CONFETTI.addConfetti({
+				confettiRadius: 2,
+				confettiNumber: 1000,
+			});
+			playSentences();
+			GIFT?.classList.add("hidden");
+			MAIN_CONTAINER?.classList.remove("hidden");
+		} else {
+			showError();
+		}		
+	})
+	.catch(error => {
+		showError();
+		console.log(error);
+	})
 };
 
 TOGGLE_BTN.forEach((item, index) =>
