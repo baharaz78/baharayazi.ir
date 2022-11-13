@@ -5,7 +5,7 @@ const TOGGLE_BTN = document.querySelectorAll(".js-toggle-btn");
 const MAIN_CONTAINER = document.querySelector(".js-container");
 
 let SENTENCES = [];
-const isLocal = true;
+const isLocal = false;
 let intervalRef = null;
 const INTERVAL_TIME = 3000;
 const BASE_URL = isLocal ? 'http://localhost:8000' : 'https://baharayazi.iran.liara.run';
